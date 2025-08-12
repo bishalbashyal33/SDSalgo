@@ -1,27 +1,34 @@
-# Measuring Discrimination to Boost Comparative Testing for Multiple Deep Learning Models
-This repository stores our experimental codes for the paper "Measuring Discrimination to Boost Comparative Testing for Multiple Deep Learning Models". SDS is short for the approach we proposed in this paper: Sample Discrimination based Selection.
-## Datasets
-The datasets we used (MNIST,Fashion-MNIST,CIFAR-10) all can be loaded through python's keras package, such as:  
-```python
-from keras.datasets import fashion_mnist
-(x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
-```
-## Main experimental codes
-You can easily reproduce our method or modify the code we provide.
-  
-We have provided the code of our method and uploaded 25 models related to the Fashion-MNIST dataset. 
-  
-Our method is called SDS for short, and you can find the code of our method in the folder named code, which is named SDS.py. And in the ‘models’ folder, you can find 25 models we used for Fashion-MNIST. You can run SDS.py directly to reproduce our original experimental results. If you want to conduct your own experiments, you can modify the model and code accordingly.  
-  
-You should create corresponding folders to store the results of different models，i.e., the accuracy for each model.
-## Baseline methods
-We have used four baseline methods in total, we will explain the experimental settings of the baselines.
-  
-**'SRS'**: short for the Simple Random Selection.  
-  
-**'CES'**: short for the method proposed in the paper 'Boosting Operational DNN Testing Efficiency through Conditioning'. CES is a sampling method for a single model. Since our experiment is for a multi-model scenario, we use the CES method to sample for all models, and then select the best performing subset as the baseline. The best performance here means that we use the sampled subset of the model to measure the spearman coefficients and jaccard coefficients of all model accuracy (35-180) and the final model accuracy, and calculate the mean value of all points, and the largest mean value is regarded as the optimal subset.   
-  
-**'RDG'**: RDG is the baseline we used after randomization according to the method proposed in the paper 'DeepGini: Prioritizing Massive Tests to Enhance the Robustness of Deep Neural Networks'. For each sample, we calculated the maximum/minimum ξ values of all models, and selected samples according to sampling size, randomly sampled in the first 25%. We reported the best of them in the paper. 
-  
-**'DDG'**: This is also using the method in the paper 'DeepGini: Prioritizing Massive Tests to Enhance the Robustness of Deep Neural Networks'. But this time we do not perform random sampling, but take the top 180 marks ranked as the test subset. In other words, this is a deterministic sampling method.  
-  
+# SDS: Sample Discrimination Strategy for Model Evaluation
+
+## 📌 Overview
+This repository implements the **Sample Discrimination Strategy (SDS)** for evaluating model performance and selecting the most informative test samples.  
+The method ranks models based on agreement with the majority vote, identifies discriminative samples, and compares model consistency using **Jaccard** and **Spearman** coefficients.  
+
+By applying SDS to the **FASHION-MNIST** dataset, we aim to:  
+- Identify high-discrimination samples that best differentiate models.  
+- Compare stability of top-*k* models across different sample sizes.  
+- Quantify ranking consistency between experiments.  
+
+---
+
+## ✨ Key Features
+- **Automated Model Loading** – Loads multiple trained Keras models from disk.  
+- **Majority Voting Evaluation** – Computes majority predictions across models for each sample.  
+- **Model Ranking** – Sorts models based on agreement with the majority vote.  
+- **Sample Discrimination Analysis** – Selects samples that most differentiate top and bottom ranked models.  
+- **Random Sampling Experiments** – Tests model stability with repeated random subsets of discriminative samples.  
+- **Metric Visualization** – Plots Jaccard and Spearman coefficients vs. sample size.  
+
+---
+
+## 📊 Results
+### 1️⃣ Jaccard Coefficient of Top-*k* Models
+The Jaccard coefficient measures the similarity between sets of top-*k* models selected in different runs.  
+- **Trend:** Increases steadily with sample size, indicating improved stability of top model selection as more samples are used.
+  ![Jaccard Coefficient Plot](results/sds_fashion_mnist_jaccard.png)  
+
+### 2️⃣ Spearman Coefficient of Ranking
+The Spearman rank correlation measures consistency between complete model rankings across experiments.  
+- **Trend:** Rises with sample size, showing that rankings stabilize as more discriminative samples are included.
+- ![Spearman Coefficient Plot](results/sds_fashion_mnist_spearman.png)  
+
