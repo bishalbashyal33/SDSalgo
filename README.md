@@ -1,6 +1,4 @@
-# SDS: Sample Discrimination Strategy for Model Evaluation
-
-This algorithm implementation is completed in reference to the original paper by Linghan meng. Modifications have been added to complete the pipeline for evaluation of jaccard and spearman plots missing in the original Repo. Read the paper here: https://arxiv.org/abs/2103.04333
+ Sample Discrimination Strategy for Model algorithm is implemented in reference to the original paper by Linghan meng. Modifications have been added to complete the pipeline for evaluation of jaccard and spearman plots missing in the original Repo. Read the paper here: https://arxiv.org/abs/2103.04333
 
 ## 📌 Overview
 This repository implements the **Sample Discrimination Strategy (SDS)** for evaluating model performance and selecting the most informative test samples.  
